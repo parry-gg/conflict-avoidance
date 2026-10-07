@@ -1,0 +1,24 @@
+{
+  "name": "parrygg-conflict-avoidance",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Finds attendees seeded into brackets that share a wave and suggests seed swaps to resolve the conflict",
+  "bin": {
+    "parrygg-conflicts": "./src/index.js"
+  },
+  "scripts": {
+    "start": "node src/index.js",
+    "conflicts": "node src/index.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "@parry-gg/parrygg-client": "^2.0.3",
+    "google-protobuf": "^3.21.2",
+    "grpc-web": "^1.5.0",
+    "xhr2": "^0.2.1"
+  }
+}
