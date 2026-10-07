@@ -1,16 +1,11 @@
 /**
- * Thin wrapper over the generated @parry-gg/parrygg-client grpc-web stubs.
+ * Thin wrapper over the generated @parry-gg/client grpc-web stubs
+ * (https://github.com/parry-gg/client).
  *
  * Everything is returned as plain objects (google-protobuf `toObject()` shape:
  * camelCase fields, repeated fields suffixed with `List`).
  */
-import { installXhr } from './xhr.js';
-
-installXhr();
-
-// Dynamic import from the package root: the generated service client classes only
-// exist in the bundled barrel, and the package is not flagged as an ES module.
-const {
+import {
   EventServiceClient,
   TournamentServiceClient,
   GetEventRequest,
@@ -19,7 +14,11 @@ const {
   EventIdentifier,
   EventSlugPath,
   GetTournamentRequest,
-} = await import('@parry-gg/parrygg-client');
+} from '@parry-gg/client';
+import { installXhr } from './xhr.js';
+
+// Must run before the first request; grpc-web resolves XMLHttpRequest at call time.
+installXhr();
 
 export const DEFAULT_TARGET = 'https://grpcweb.parry.gg';
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -77,7 +76,7 @@ export function createApi({ target = DEFAULT_TARGET, apiKey, authToken } = {}) {
       else request.setTournamentSlug(ref);
       const response = await tournaments.getTournament(request, metadata);
       const tournament = response.toObject().tournament;
-      if (!tournament) throw new Error(`Tournament not found: ${id}`);
+      if (!tournament) throw new Error(`Tournament not found: ${ref}`);
       return tournament;
     },
   };

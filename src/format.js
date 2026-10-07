@@ -55,7 +55,7 @@ export function formatText({ tournament, events, scopeEventIds, conflicts, summa
           `${fix.with.waveName ? `wave "${fix.with.waveName}"` : 'no wave'})` +
           (sameSide ? '' : `  [in ${fix.move.eventName}]`),
       );
-      lines.push(`                    SeedService.SwapSeeds source_seed_id=${fix.move.seedId} target_seed_id=${fix.with.seedId}`);
+      lines.push(`                    seed ids: ${fix.move.seedId} <-> ${fix.with.seedId}`);
     } else if (fix.type === 'resolved-by') {
       lines.push(`    suggested fix:  already resolved by the swap in #${fix.conflictIndex + 1}`);
     } else {
@@ -91,7 +91,7 @@ export function toJson({ tournament, events, scopeEventIds, conflicts, summary }
               type: 'swap',
               move: seedView(c.fix.move),
               with: seedView(c.fix.with),
-              swapSeedsRequest: { sourceSeedId: c.fix.move.seedId, targetSeedId: c.fix.with.seedId },
+              seedIds: { move: c.fix.move.seedId, with: c.fix.with.seedId },
             }
           : c.fix.type === 'resolved-by'
             ? { type: 'resolved-by', conflictIndex: c.fix.conflictIndex }
